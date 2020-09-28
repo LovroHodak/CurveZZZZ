@@ -27,21 +27,9 @@ function snake1() {
 }
 
 function snakeBorderCollision() {
-    if(snake1x > canvas.width){
+    if(snake1x > canvas.width || snake1x < 0 || snake1y > canvas.height || snake1y < 0){
         clearInterval(intervalId)
         alert('GAME OVER')
-    }
-    if(snake1x < 0){
-        clearInterval(intervalId)
-        alert('GAME OVER')  
-    }
-    if(snake1y > canvas.height){
-        clearInterval(intervalId)
-        alert('GAME OVER')
-    }
-    if(snake1y < 0){
-        clearInterval(intervalId)
-        alert('GAME OVER')  
     }
 }
 
