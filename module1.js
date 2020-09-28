@@ -19,17 +19,37 @@ let intervalId = 0
 function snake1() {
     ctx.save() //Saves the entire state of the canvas
     ctx.translate(snake1x, snake1y)
+    console.log(snake1x, snake1y)
     ctx.rotate(angle)
     ctx.fillStyle = '#fff'
     ctx.fillRect(snake1width / -2, snake1height / -2, snake1width, snake1height)
     ctx.restore() //Restores the most recently saved canvas state
 }
 
-
+function snakeBorderCollision() {
+    if(snake1x > canvas.width){
+        clearInterval(intervalId)
+        alert('GAME OVER')
+    }
+    if(snake1x < 0){
+        clearInterval(intervalId)
+        alert('GAME OVER')  
+    }
+    if(snake1y > canvas.height){
+        clearInterval(intervalId)
+        alert('GAME OVER')
+    }
+    if(snake1y < 0){
+        clearInterval(intervalId)
+        alert('GAME OVER')  
+    }
+}
 
 function newPos() {
-    angle += moveAngle * Math.PI / 180
+    angle += moveAngle * Math.PI / 180 //0.01744
+    //sin(0)=0        sin(1)=1
     snake1x += speed * Math.sin(angle)
+    //cos(0)=1       cos(1)=0
     snake1y -= speed * Math.cos(angle)
 }
 
@@ -45,10 +65,11 @@ document.addEventListener('keyup', logKey)
 function startGame() {
     moveAngle = 0
     speed = 1
-
+    //left
     if (keysDown && keysDown[37]){
         moveAngle = -1 
     }
+    //right
     if (keysDown && keysDown[39]){
         moveAngle = 1 
     }
@@ -64,6 +85,7 @@ function startGame() {
 
     newPos()
     snake1()
+    snakeBorderCollision()
 }
 
 intervalId = setInterval(() => {
