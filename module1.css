@@ -1,6 +1,14 @@
+body {
+    background-color: chartreuse;
+}
+
 canvas {
     width: 800px;
     height: 500px;
     border: 1px solid #d3d3d3;
     background-color: #d33535;
+}
+
+.white {
+    color: white;
 }

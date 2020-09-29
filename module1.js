@@ -1,6 +1,10 @@
 let canvas = document.querySelector('canvas')
 let ctx = canvas.getContext("2d")
 
+let player1 = document.getElementById("player1")
+let player2 = document.getElementById("player2")
+
+
 let type = "keydown"
 let keysDown = {}
 
@@ -54,7 +58,7 @@ function snake2(){
     }
 
     ctx.rotate(angle)
-    ctx.fillStyle = 'blue'
+    ctx.fillStyle = '#000000'
     ctx.fillRect(snake2width / -2, snake2height / -2, snake2width, snake2height)
     ctx.restore()
 }
@@ -65,11 +69,13 @@ function snakeCollision() {
     if(snake1x > canvas.width || snake1x < 0 || snake1y > canvas.height || snake1y < 0){
         clearInterval(intervalId)
         alert('GAME OVER')
+        player2.innerText++
     }
     
     if(snake2x > canvas.width || snake2x < 0 || snake2y > canvas.height || snake2y < 0){
         clearInterval(intervalId)
         alert('GAME OVER')
+        player1.innerText++
     }
     
 
@@ -78,6 +84,7 @@ function snakeCollision() {
           if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
             clearInterval(intervalId)
             alert('GAME OVER')
+            player2.innerText++
           }
           /*
           if(index !== index2 && (parseInt(item2[0]) - 9) < parseInt(item[0]) < (parseInt(item2[0]) + 9) && parseInt(item[1]) === parseInt(item2[1])){
@@ -96,9 +103,21 @@ function snakeCollision() {
           if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
             clearInterval(intervalId)
             alert('GAME OVER')
+            player1.innerText++
           }
         })
     })
+
+    pastPos.forEach((item, index) => {
+        pastPos2.forEach((item2, index2) => {
+          if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
+            clearInterval(intervalId)
+            alert('GAME OVER')
+          }
+        })
+    })
+
+    
 }
 
 function newPos() {
@@ -114,6 +133,8 @@ function newPos2() {
     snake2x += speed * Math.sin(angle2)
     snake2y -= speed * Math.cos(angle2)
 }
+
+
 
 function logKey(e) {
     e.preventDefault()
@@ -168,6 +189,8 @@ function startGame() {
     snake1()
     snake2()
     snakeCollision()
+
+   
 }
 
 intervalId = setInterval(() => {
