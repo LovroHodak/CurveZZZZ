@@ -9,87 +9,96 @@ let snake1y = 200
 let snake1width = 10
 let snake1height = 10
 
+let snake2x = 400
+let snake2y = 400
+let snake2width = 10
+let snake2height = 10
+
 let speed = 1
+
 let angle = 0
+let angle2 = 0
+
 let moveAngle = 0
+let moveAngle2 = 0
 
 let pastPos = []
-
+let pastPos2 = []
 
 let intervalId = 0
 
 function snake1() {
-    ctx.save() //Saves the entire state of the canvas
+    ctx.save() 
     ctx.translate(snake1x, snake1y)
-    //pastPos.push(snake1x, snake1y)
-    let snake1xInt = Number(parseInt(snake1x)) // changing the elements to a int
-    let snake1yInt = Number(parseInt(snake1y))// changing the elements to a int
-    console.log(snake1xInt)
-    console.log(snake1yInt)
-     // 3 conditions before push. 
-    //  1. the array empty (first push). 
-    //  2. the array of [x,y] that I am trying to add is not included the array.
-    // ... else, push
+
+    let snake1xInt = Number(parseInt(snake1x))
+    let snake1yInt = Number(parseInt(snake1y))
     if (pastPos.length === 0 || pastPos[pastPos.length-1][0] !== snake1xInt || pastPos[pastPos.length-1][1] !== snake1yInt) {
         pastPos.push([snake1xInt, snake1yInt])
     }
-    //console.log(pastPos)
+
     ctx.rotate(angle)
     ctx.fillStyle = '#fff'
     ctx.fillRect(snake1width / -2, snake1height / -2, snake1width, snake1height)
-    ctx.restore() //Restores the most recently saved canvas state
-    
-       
+    ctx.restore() 
+}
+
+function snake2(){
+    ctx.save() 
+    ctx.translate(snake2x, snake2y)
+
+    let snake2xInt = Number(parseInt(snake2x))
+    let snake2yInt = Number(parseInt(snake2y))
+    if (pastPos2.length === 0 || pastPos2[pastPos2.length-1][0] !== snake2xInt || pastPos2[pastPos2.length-1][1] !== snake2yInt) {
+        pastPos2.push([snake2xInt, snake2yInt])
+    }
+
+    ctx.rotate(angle)
+    ctx.fillStyle = 'blue'
+    ctx.fillRect(snake2width / -2, snake2height / -2, snake2width, snake2height)
+    ctx.restore()
 }
 
 
 
-function snakeBorderCollision() {
-    if(snake1x > canvas.width || snake1x < 0 || snake1y > canvas.height){
+function snakeCollision() {
+    if(snake1x > canvas.width || snake1x < 0 || snake1y > canvas.height || snake1y < 0){
         clearInterval(intervalId)
         alert('GAME OVER')
     }
     
-    if(snake1y < 0){
-        snake1y = canvas.height
+    if(snake2x > canvas.width || snake2x < 0 || snake2y > canvas.height || snake2y < 0){
+        clearInterval(intervalId)
+        alert('GAME OVER')
     }
-    /*
-    pastPos.filter((item, index) => {
-        if((pastPos.indexOf(item) != index) === true){
-          console.log('strawberry')
-        }
-      });
-      
-    */
+    
 
-    // double loop that will check the current position array agains all the arrays in pastPost
-    // if both the x and y of current position match x and y of any element inside pastPos, the  do....
     pastPos.forEach((item, index) => {
         pastPos.forEach((item2, index2) => {
+          if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
+            clearInterval(intervalId)
+            alert('GAME OVER')
+          }
+          /*
+          if(index !== index2 && (parseInt(item2[0]) - 9) < parseInt(item[0]) < (parseInt(item2[0]) + 9) && parseInt(item[1]) === parseInt(item2[1])){
+            console.log('lulu')
+          }
+          if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && (parseInt(item2[1]) - 9) < parseInt(item[1]) <(parseInt(item2[1]) + 9)){
+            console.log('bebe')
+          }
+          */
+          
+        })
+    })
+
+    pastPos2.forEach((item, index) => {
+        pastPos2.forEach((item2, index2) => {
           if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
             clearInterval(intervalId)
             alert('GAME OVER')
           }
         })
     })
-    /*
-    pastPos.forEach((item, index) => {
-        pastPos.forEach((item2, index2) => {
-          if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
-            console.log('banana')
-          }
-        })
-              }
-            )
-    */
-    /*
-    for (let i=0; i < pastPos.length; i++){
-        if(pastPos(i) === currentPos[0]){
-            clearInterval(intervalId)
-            alert('GAME OVER')
-        }
-    }
-     */
 }
 
 function newPos() {
@@ -98,6 +107,10 @@ function newPos() {
     snake1x += speed * Math.sin(angle)
     //cos(0)=1       cos(1)=0
     snake1y -= speed * Math.cos(angle)
+
+    angle2 += moveAngle2 * Math.PI / 180
+    snake2x += speed * Math.sin(angle2)
+    snake2y -= speed * Math.cos(angle2)
 }
 
 function logKey(e) {
@@ -111,6 +124,7 @@ document.addEventListener('keyup', logKey)
 
 function startGame() {
     moveAngle = 0
+    moveAngle2 = 0
     speed = 1
     //left
     if (keysDown && keysDown[37]){
@@ -129,10 +143,28 @@ function startGame() {
         startGame() 
     }
 
+    //left A
+    if (keysDown && keysDown[65]){
+        moveAngle2 = -1 
+    }
+    //right D
+    if (keysDown && keysDown[68]){
+        moveAngle2 = 1 
+    }
+    //TURBO W
+    if (keysDown && keysDown[87]){
+        newPos() 
+    }
+    //TEMPORARY PAUSE S
+    if (keysDown && keysDown[83]){
+        startGame() 
+    }
+
 
     newPos()
     snake1()
-    snakeBorderCollision()
+    snake2()
+    snakeCollision()
 }
 
 intervalId = setInterval(() => {
