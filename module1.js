@@ -21,12 +21,25 @@ let intervalId = 0
 function snake1() {
     ctx.save() //Saves the entire state of the canvas
     ctx.translate(snake1x, snake1y)
-    pastPos.push(snake1x, snake1y)
-    console.log(pastPos)
+    //pastPos.push(snake1x, snake1y)
+    let snake1xInt = Number(parseInt(snake1x)) // changing the elements to a int
+    let snake1yInt = Number(parseInt(snake1y))// changing the elements to a int
+    console.log(snake1xInt)
+    console.log(snake1yInt)
+     // 3 conditions before push. 
+    //  1. the array empty (first push). 
+    //  2. the array of [x,y] that I am trying to add is not included the array.
+    // ... else, push
+    if (pastPos.length === 0 || pastPos[pastPos.length-1][0] !== snake1xInt || pastPos[pastPos.length-1][1] !== snake1yInt) {
+        pastPos.push([snake1xInt, snake1yInt])
+    }
+    //console.log(pastPos)
     ctx.rotate(angle)
     ctx.fillStyle = '#fff'
     ctx.fillRect(snake1width / -2, snake1height / -2, snake1width, snake1height)
     ctx.restore() //Restores the most recently saved canvas state
+    
+       
 }
 
 
@@ -40,13 +53,25 @@ function snakeBorderCollision() {
     if(snake1y < 0){
         snake1y = canvas.height
     }
-    
+    /*
     pastPos.filter((item, index) => {
         if((pastPos.indexOf(item) != index) === true){
           console.log('strawberry')
         }
       });
       
+    */
+
+    // double loop that will check the current position array agains all the arrays in pastPost
+    // if both the x and y of current position match x and y of any element inside pastPos, the  do....
+    pastPos.forEach((item, index) => {
+        pastPos.forEach((item2, index2) => {
+          if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
+            clearInterval(intervalId)
+            alert('GAME OVER')
+          }
+        })
+    })
     /*
     pastPos.forEach((item, index) => {
         pastPos.forEach((item2, index2) => {
@@ -112,5 +137,5 @@ function startGame() {
 
 intervalId = setInterval(() => {
     requestAnimationFrame(startGame)
-}, 200)
+}, 20)
 
