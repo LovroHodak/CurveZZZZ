@@ -4,8 +4,8 @@ let ctx = canvas.getContext("2d")
 let type = "keydown"
 let keysDown = {}
 
-let snake1x = 225
-let snake1y = 225
+let snake1x = 200
+let snake1y = 200
 let snake1width = 10
 let snake1height = 10
 
@@ -13,24 +13,58 @@ let speed = 1
 let angle = 0
 let moveAngle = 0
 
+let pastPos = []
+
 
 let intervalId = 0
 
 function snake1() {
     ctx.save() //Saves the entire state of the canvas
     ctx.translate(snake1x, snake1y)
-    console.log(snake1x, snake1y)
+    pastPos.push(snake1x, snake1y)
+    console.log(pastPos)
     ctx.rotate(angle)
     ctx.fillStyle = '#fff'
     ctx.fillRect(snake1width / -2, snake1height / -2, snake1width, snake1height)
     ctx.restore() //Restores the most recently saved canvas state
 }
 
+
+
 function snakeBorderCollision() {
-    if(snake1x > canvas.width || snake1x < 0 || snake1y > canvas.height || snake1y < 0){
+    if(snake1x > canvas.width || snake1x < 0 || snake1y > canvas.height){
         clearInterval(intervalId)
         alert('GAME OVER')
     }
+    
+    if(snake1y < 0){
+        snake1y = canvas.height
+    }
+    
+    pastPos.filter((item, index) => {
+        if((pastPos.indexOf(item) != index) === true){
+          console.log('strawberry')
+        }
+      });
+      
+    /*
+    pastPos.forEach((item, index) => {
+        pastPos.forEach((item2, index2) => {
+          if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
+            console.log('banana')
+          }
+        })
+              }
+            )
+    */
+    /*
+    for (let i=0; i < pastPos.length; i++){
+        if(pastPos(i) === currentPos[0]){
+            clearInterval(intervalId)
+            alert('GAME OVER')
+        }
+    }
+     */
 }
 
 function newPos() {
@@ -78,5 +112,5 @@ function startGame() {
 
 intervalId = setInterval(() => {
     requestAnimationFrame(startGame)
-}, 20)
+}, 200)
 
