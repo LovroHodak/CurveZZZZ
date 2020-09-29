@@ -1,14 +1,67 @@
 body {
-    background-color: chartreuse;
+    background-color: #fcba03;
 }
 
 canvas {
     width: 800px;
     height: 500px;
-    border: 1px solid #d3d3d3;
+    
     background-color: #d33535;
 }
 
 .white {
     color: white;
+}
+
+#splash{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.score{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.inst {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.first {
+    display: flex;
+    flex-direction: column;
+    margin-right: 30px;
+    justify-content: center;
+}
+
+.second{
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+    justify-content: center;
+}
+
+h3 {
+    text-decoration: underline;
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+}
+
+#button {
+    font-size: 80px;
+    font-weight: 500;
+    padding: 20px;
+    border-radius: 7px;
+    background-color: #ff75a8;
+}
+
+p {
+    text-align: center;
 }

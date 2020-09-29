@@ -1,5 +1,20 @@
+function create(){
+    document.getElementById('splash').innerHTML = '<canvas id="someId"></canvas>'; // replaces the inner HTML of #splash to a canvas
+    canvas = document.querySelector('canvas');
+    ctx = canvas.getContext('2d');
+
+    intervalId = setInterval(() => {
+        requestAnimationFrame(startGame)
+    }, 20)
+}
+
+
+document.getElementById("button").addEventListener("click", create);
+/*
 let canvas = document.querySelector('canvas')
+canvas.style.border = '2px solid black'
 let ctx = canvas.getContext("2d")
+*/
 
 let player1 = document.getElementById("player1")
 let player2 = document.getElementById("player2")
@@ -8,12 +23,12 @@ let player2 = document.getElementById("player2")
 let type = "keydown"
 let keysDown = {}
 
-let snake1x = 200
+let snake1x = 400 
 let snake1y = 400
 let snake1width = 10
 let snake1height = 10
 
-let snake2x = 400
+let snake2x = 200
 let snake2y = 400
 let snake2width = 10
 let snake2height = 10
@@ -144,7 +159,11 @@ function logKey(e) {
 document.addEventListener('keydown', logKey)
 
 document.addEventListener('keyup', logKey)
-
+/*
+splash.addEventListener('load', () => {
+    ctx.drawImage(splash, 0, 0)
+})
+*/
 function startGame() {
     moveAngle = 0
     moveAngle2 = 0
@@ -192,8 +211,8 @@ function startGame() {
 
    
 }
-
+/*
 intervalId = setInterval(() => {
     requestAnimationFrame(startGame)
 }, 20)
-
+*/
