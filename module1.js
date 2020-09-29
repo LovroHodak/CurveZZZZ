@@ -5,7 +5,7 @@ let type = "keydown"
 let keysDown = {}
 
 let snake1x = 200
-let snake1y = 200
+let snake1y = 400
 let snake1width = 10
 let snake1height = 10
 
@@ -107,7 +107,9 @@ function newPos() {
     snake1x += speed * Math.sin(angle)
     //cos(0)=1       cos(1)=0
     snake1y -= speed * Math.cos(angle)
+}
 
+function newPos2() {
     angle2 += moveAngle2 * Math.PI / 180
     snake2x += speed * Math.sin(angle2)
     snake2y -= speed * Math.cos(angle2)
@@ -135,11 +137,11 @@ function startGame() {
         moveAngle = 1 
     }
     //TURBO 
-    if (keysDown && keysDown[40]){
+    if (keysDown && keysDown[38]){
         newPos() 
     }
     //TEMPORARY PAUSE 
-    if (keysDown && keysDown[38]){
+    if (keysDown && keysDown[40]){
         startGame() 
     }
 
@@ -162,6 +164,7 @@ function startGame() {
 
 
     newPos()
+    newPos2()
     snake1()
     snake2()
     snakeCollision()
