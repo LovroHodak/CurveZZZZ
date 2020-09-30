@@ -28,6 +28,13 @@ let pastPos
 let pastPos2
 let intervalId
 
+let player1score
+let player2score
+
+let myMusic
+
+let gameIsStarting = true
+
 // FUNCTIONS
 
 function create(){
@@ -38,6 +45,23 @@ function create(){
     intervalId = setInterval(() => {
         requestAnimationFrame(startGame)
     }, 20)
+    myMusic = new sound("sell_the_can.mp3")
+    myMusic.play()
+}
+
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+        this.sound.play();
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }    
 }
 
 function initializeVariables() {
@@ -64,6 +88,14 @@ function initializeVariables() {
     pastPos = []
     pastPos2 = []
     intervalId = 0
+
+    if(gameIsStarting){
+        player1score = 3
+        player2score =3
+        gameIsStarting = false
+    }
+    //player1score = 3
+    //player2score = 3
 }
 
 function snake1() {
@@ -98,20 +130,44 @@ function snake2(){
     ctx.restore()
 }
 
+function gameOver(){
+    //document.removeChild('canvas')
+    document.getElementById('splash').innerHTML  = `<div class="cmon"><h1>Game over</h1><p>The winner is: </p><p>Just click the button and play again</p><button>Start Game</button></div>`
+    console.log('gameover')
+}
+
+// morm nastimat pogoj da ko je player.score = 0, invoke gameover()
+
+function match(){
+    player1.innerText--
+    create()
+    player1.innerText = player1score
+}
+
+function match2(){
+    player2.innerText--
+    create()
+    player2.innerText = player2score
+}
+
+//prva 2 collisiona sta nastimana
+
 function snakeCollision() {
     
     if(snake1x > canvas.width || snake1x < 0 || snake1y > canvas.height || snake1y < 0){
+        setTimeout(match, 3000)
+        player1score--
+        player1.innerText = player1score
+        console.log(player1score)
         clearInterval(intervalId)
-        alert('Match over')
-        player1.innerText--
-        create()
     }
     
     if(snake2x > canvas.width || snake2x < 0 || snake2y > canvas.height || snake2y < 0){
+        setTimeout(match2, 3000)
+        player2score--
+        player2.innerText = player2score
+        console.log(player2score)
         clearInterval(intervalId)
-        alert('Match over')
-        player2.innerText--
-        create()
     }
 
     pastPos.forEach((item, index) => {
@@ -128,10 +184,11 @@ function snakeCollision() {
     pastPos2.forEach((item, index) => {
         pastPos2.forEach((item2, index2) => {
           if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
+            setTimeout(match2, 3000)
+            player2score--
+            player2.innerText = player2score
+            console.log(player2score)
             clearInterval(intervalId)
-            alert('Match over')
-            player2.innerText--
-            create()
           }
         })
     })
@@ -139,19 +196,27 @@ function snakeCollision() {
     pastPos.forEach((item, index) => {
         pastPos2.forEach((item2, index2) => {
           if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
-              console.log('item[0]', parseInt)
             if(parseInt(item[0]) === parseInt(pastPos[pastPos.length - 1][0]) && parseInt(item[1]) === parseInt(pastPos[pastPos.length - 1][1])){
                 player1.innerText--
-                console.log('loo')
               } else {
                 player2.innerText--
-                console.log('hee')
               }
             clearInterval(intervalId)
             alert('Match over')
             create()
           }
-        
+         /*
+          if(player1Score === 0 ){
+              location.reload(`
+                document.getElementById('someId').innerHTML = `¸
+                <diV>Game Over¸
+                   <h1></h1>
+                </div>`; 
+          }
+          if(player2.innerText === '2'){
+              location.reload()
+          }
+          */
         })
     })
 }
