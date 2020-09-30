@@ -1,52 +1,70 @@
-function create(){
-    document.getElementById('splash').innerHTML = '<canvas id="someId" width="750" height="500"></canvas>'; // replaces the inner HTML of #splash to a canvas
-    canvas = document.querySelector('canvas');
-    ctx = canvas.getContext('2d');
-
-    intervalId = setInterval(() => {
-        requestAnimationFrame(startGame)
-    }, 20)
-    //startGame()
-    //console.log('create8 awake')
-}
-
-
-document.getElementById("button").addEventListener("click", create);
-/*
-let canvas = document.querySelector('canvas')
-canvas.style.border = '2px solid black'
-let ctx = canvas.getContext("2d")
-*/
+// GLOBAL VARIABLES
 
 let player1 = document.getElementById("player1")
 let player2 = document.getElementById("player2")
 
-
 let type = "keydown"
-let keysDown = {}
+let keysDown;
 
-let snake1x = 400 
-let snake1y = 400
-let snake1width = 10
-let snake1height = 10
+let snake1x 
+let snake1y
+let snake1width
+let snake1height
 
-let snake2x = 200
-let snake2y = 400
-let snake2width = 10
-let snake2height = 10
+let snake2x
+let snake2y
+let snake2width
+let snake2height
 
-let speed = 1
+let speed
 
-let angle = 0
-let angle2 = 0
+let angle
+let angle2
 
-let moveAngle = 0
-let moveAngle2 = 0
+let moveAngle
+let moveAngle2
 
-let pastPos = []
-let pastPos2 = []
+let pastPos
+let pastPos2
+let intervalId
 
-let intervalId = 0
+// FUNCTIONS
+
+function create(){
+    document.getElementById('splash').innerHTML = '<canvas id="someId" width="750" height="500"></canvas>'; // replaces the inner HTML of #splash to a canvas
+    canvas = document.querySelector('canvas');
+    ctx = canvas.getContext('2d');
+    initializeVariables()
+    intervalId = setInterval(() => {
+        requestAnimationFrame(startGame)
+    }, 20)
+}
+
+function initializeVariables() {
+    keysDown = {}
+
+    snake1x = 400 
+    snake1y = 400
+    snake1width = 10
+    snake1height = 10
+
+    snake2x = 200
+    snake2y = 400
+    snake2width = 10
+    snake2height = 10
+
+    speed = 1
+
+    angle = 0
+    angle2 = 0
+
+    moveAngle = 0
+    moveAngle2 = 0
+
+    pastPos = []
+    pastPos2 = []
+    intervalId = 0
+}
 
 function snake1() {
     ctx.save() 
@@ -62,7 +80,6 @@ function snake1() {
     ctx.fillStyle = '#fff'
     ctx.fillRect(snake1width / -2, snake1height / -2, snake1width, snake1height)
     ctx.restore() 
-    //console.log('snake1 awake')
 }
 
 function snake2(){
@@ -79,49 +96,42 @@ function snake2(){
     ctx.fillStyle = '#000000'
     ctx.fillRect(snake2width / -2, snake2height / -2, snake2width, snake2height)
     ctx.restore()
-    //console.log('snake2 awake')
 }
 
 function snakeCollision() {
     
     if(snake1x > canvas.width || snake1x < 0 || snake1y > canvas.height || snake1y < 0){
-        //clearInterval(intervalId)
-        alert('GAME OVER')
-        player2.innerText++
+        clearInterval(intervalId)
+        alert('Match over')
+        player1.innerText--
+        create()
     }
     
     if(snake2x > canvas.width || snake2x < 0 || snake2y > canvas.height || snake2y < 0){
-        //clearInterval(intervalId)
-        alert('GAME OVER')
-        player1.innerText++
+        clearInterval(intervalId)
+        alert('Match over')
+        player2.innerText--
+        create()
     }
-    
 
     pastPos.forEach((item, index) => {
         pastPos.forEach((item2, index2) => {
           if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
-            //clearInterval(intervalId)
-            alert('GAME OVER')
-            player2.innerText++
+            clearInterval(intervalId)
+            alert('Match over')
+            player1.innerText--
+            create()
           }
-          /*
-          if(index !== index2 && (parseInt(item2[0]) - 9) < parseInt(item[0]) < (parseInt(item2[0]) + 9) && parseInt(item[1]) === parseInt(item2[1])){
-            console.log('lulu')
-          }
-          if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && (parseInt(item2[1]) - 9) < parseInt(item[1]) <(parseInt(item2[1]) + 9)){
-            console.log('bebe')
-          }
-          */
-          
         })
     })
 
     pastPos2.forEach((item, index) => {
         pastPos2.forEach((item2, index2) => {
           if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
-            //clearInterval(intervalId)
-            alert('GAME OVER')
-            player1.innerText++
+            clearInterval(intervalId)
+            alert('Match over')
+            player2.innerText--
+            create()
           }
         })
     })
@@ -129,13 +139,21 @@ function snakeCollision() {
     pastPos.forEach((item, index) => {
         pastPos2.forEach((item2, index2) => {
           if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
-            //clearInterval(intervalId)
-            alert('GAME OVER')
+              console.log('item[0]', parseInt)
+            if(parseInt(item[0]) === parseInt(pastPos[pastPos.length - 1][0]) && parseInt(item[1]) === parseInt(pastPos[pastPos.length - 1][1])){
+                player1.innerText--
+                console.log('loo')
+              } else {
+                player2.innerText--
+                console.log('hee')
+              }
+            clearInterval(intervalId)
+            alert('Match over')
+            create()
           }
+        
         })
     })
-    //console.log('collision3 awake')
-    
 }
 
 function newPos() {
@@ -144,32 +162,19 @@ function newPos() {
     snake1x += speed * Math.sin(angle)
     //cos(0)=1       cos(1)=0
     snake1y -= speed * Math.cos(angle)
-    //console.log('newPos4 awake')
 }
 
 function newPos2() {
     angle2 += moveAngle2 * Math.PI / 180
     snake2x += speed * Math.sin(angle2)
     snake2y -= speed * Math.cos(angle2)
-    //console.log('newPos5 awake')
 }
 
 function logKey(e) {
     e.preventDefault()
     keysDown[e.keyCode] = (e.type == "keydown")
-    //console.log('logKey6 awake')
 }
 
-
-
-document.addEventListener('keydown', logKey)
-
-document.addEventListener('keyup', logKey)
-/*
-splash.addEventListener('load', () => {
-    ctx.drawImage(splash, 0, 0)
-})
-*/
 function startGame() {
     moveAngle = 0
     moveAngle2 = 0
@@ -201,7 +206,7 @@ function startGame() {
     }
     //TURBO W
     if (keysDown && keysDown[87]){
-        newPos() 
+        newPos2() 
     }
     //TEMPORARY PAUSE S
     if (keysDown && keysDown[83]){
@@ -214,14 +219,12 @@ function startGame() {
     snake1()
     snake2()
     snakeCollision()
-
-    
-
-    //console.log('startgame7 awake')
-   
 }
-/*
-intervalId = setInterval(() => {
-    requestAnimationFrame(startGame)
-}, 20)
-*/
+
+// EVENT LISTENERS
+
+document.getElementById("button").addEventListener("click", create)
+
+document.addEventListener('keydown', logKey)
+
+document.addEventListener('keyup', logKey)
