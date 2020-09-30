@@ -43,6 +43,6 @@ b)<br>
 https://trello.com/b/BwCVh3bJ/curvezzzz
 
 <h3> GitHub - play CurveZZZZ </h3>
-
+https://lovrohodak.github.io/CurveZZZZ/
 
 
