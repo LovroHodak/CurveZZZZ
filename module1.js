@@ -1,11 +1,13 @@
 function create(){
-    document.getElementById('splash').innerHTML = '<canvas id="someId"></canvas>'; // replaces the inner HTML of #splash to a canvas
+    document.getElementById('splash').innerHTML = '<canvas id="someId" width="750" height="500"></canvas>'; // replaces the inner HTML of #splash to a canvas
     canvas = document.querySelector('canvas');
     ctx = canvas.getContext('2d');
 
     intervalId = setInterval(() => {
         requestAnimationFrame(startGame)
     }, 20)
+    //startGame()
+    //console.log('create8 awake')
 }
 
 
@@ -60,6 +62,7 @@ function snake1() {
     ctx.fillStyle = '#fff'
     ctx.fillRect(snake1width / -2, snake1height / -2, snake1width, snake1height)
     ctx.restore() 
+    //console.log('snake1 awake')
 }
 
 function snake2(){
@@ -76,19 +79,19 @@ function snake2(){
     ctx.fillStyle = '#000000'
     ctx.fillRect(snake2width / -2, snake2height / -2, snake2width, snake2height)
     ctx.restore()
+    //console.log('snake2 awake')
 }
 
-
-
 function snakeCollision() {
+    
     if(snake1x > canvas.width || snake1x < 0 || snake1y > canvas.height || snake1y < 0){
-        clearInterval(intervalId)
+        //clearInterval(intervalId)
         alert('GAME OVER')
         player2.innerText++
     }
     
     if(snake2x > canvas.width || snake2x < 0 || snake2y > canvas.height || snake2y < 0){
-        clearInterval(intervalId)
+        //clearInterval(intervalId)
         alert('GAME OVER')
         player1.innerText++
     }
@@ -97,7 +100,7 @@ function snakeCollision() {
     pastPos.forEach((item, index) => {
         pastPos.forEach((item2, index2) => {
           if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
-            clearInterval(intervalId)
+            //clearInterval(intervalId)
             alert('GAME OVER')
             player2.innerText++
           }
@@ -116,7 +119,7 @@ function snakeCollision() {
     pastPos2.forEach((item, index) => {
         pastPos2.forEach((item2, index2) => {
           if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
-            clearInterval(intervalId)
+            //clearInterval(intervalId)
             alert('GAME OVER')
             player1.innerText++
           }
@@ -126,12 +129,12 @@ function snakeCollision() {
     pastPos.forEach((item, index) => {
         pastPos2.forEach((item2, index2) => {
           if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
-            clearInterval(intervalId)
+            //clearInterval(intervalId)
             alert('GAME OVER')
           }
         })
     })
-
+    //console.log('collision3 awake')
     
 }
 
@@ -141,20 +144,23 @@ function newPos() {
     snake1x += speed * Math.sin(angle)
     //cos(0)=1       cos(1)=0
     snake1y -= speed * Math.cos(angle)
+    //console.log('newPos4 awake')
 }
 
 function newPos2() {
     angle2 += moveAngle2 * Math.PI / 180
     snake2x += speed * Math.sin(angle2)
     snake2y -= speed * Math.cos(angle2)
+    //console.log('newPos5 awake')
 }
-
-
 
 function logKey(e) {
     e.preventDefault()
     keysDown[e.keyCode] = (e.type == "keydown")
+    //console.log('logKey6 awake')
 }
+
+
 
 document.addEventListener('keydown', logKey)
 
@@ -209,6 +215,9 @@ function startGame() {
     snake2()
     snakeCollision()
 
+    
+
+    //console.log('startgame7 awake')
    
 }
 /*
