@@ -33,8 +33,8 @@ let player1score
 let player2score
 
 let myMusic
-myMusic = new Audio()
-myMusic.src = "./music/sell_the_can.mp3"
+myMusic = new Audio("./music/sell.mp3")
+//myMusic.src = "./music/sell.mp3"
 
 let gameIsStarting = true
 
@@ -49,7 +49,7 @@ function create(){
         requestAnimationFrame(startGame)
     }, 20)
     //myMusic = new Audio()
-    //myMusic.src = "./music/sell_the_can.mp3"
+    //myMusic.src = "./music/sell.mp3"
     myMusic.play()
 }
 /*
