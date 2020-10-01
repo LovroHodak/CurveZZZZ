@@ -46,7 +46,7 @@ function create(){
     intervalId = setInterval(() => {
         requestAnimationFrame(startGame)
     }, 20)
-    myMusic = new sound("sell_the_can.mp3")
+    myMusic = new sound("music/sell_the_can.mp3")
     myMusic.play()
 }
 
