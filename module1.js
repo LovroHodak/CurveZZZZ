@@ -33,6 +33,8 @@ let player1score
 let player2score
 
 let myMusic
+myMusic = new Audio()
+myMusic.src = "./music/sell_the_can.mp3"
 
 let gameIsStarting = true
 
@@ -46,10 +48,11 @@ function create(){
     intervalId = setInterval(() => {
         requestAnimationFrame(startGame)
     }, 20)
-    myMusic = new sound("music/sell_the_can.mp3")
+    //myMusic = new Audio()
+    //myMusic.src = "./music/sell_the_can.mp3"
     myMusic.play()
 }
-
+/*
 function sound(src) {
     this.sound = document.createElement("audio");
     this.sound.src = src;
@@ -67,7 +70,7 @@ function sound(src) {
     } 
        
 }
-
+*/
 function initializeVariables() {
     keysDown = {}
 
@@ -92,11 +95,13 @@ function initializeVariables() {
     pastPos = []
     pastPos2 = []
     intervalId = 0
-    
+    console.log(gameIsStarting)
     if(gameIsStarting){
         player1score = 3
         player2score = 3
         gameIsStarting = false
+        player1.innerText = player1score
+        player2.innerText = player2score
     }
     
 }
