@@ -26,14 +26,15 @@ let moveAngle2
 
 let pastPos
 let pastPos2
+
 let intervalId
 
-let player1score
-let player2score
+//let player1score
+//let player2score
 
 let myMusic
 
-let gameIsStarting = true
+//let gameIsStarting = true
 
 // FUNCTIONS
 
@@ -48,7 +49,19 @@ function create(){
     myMusic = new sound("sell_the_can.mp3")
     myMusic.play()
 }
-
+/*
+function create2(){
+    document.getElementsByClassName('cmon').innerHTML = '<canvas id="someId" width="750" height="500"></canvas>'; // replaces the inner HTML of #splash to a canvas
+    canvas = document.querySelector('canvas');
+    ctx = canvas.getContext('2d');
+    initializeVariables()
+    intervalId = setInterval(() => {
+        requestAnimationFrame(startGame)
+    }, 20)
+    myMusic = new sound("sell_the_can.mp3")
+    myMusic.play()
+}
+*/
 function sound(src) {
     this.sound = document.createElement("audio");
     this.sound.src = src;
@@ -88,14 +101,13 @@ function initializeVariables() {
     pastPos = []
     pastPos2 = []
     intervalId = 0
-
+    /*
     if(gameIsStarting){
         player1score = 3
-        player2score =3
+        player2score = 3
         gameIsStarting = false
     }
-    //player1score = 3
-    //player2score = 3
+    */
 }
 
 function snake1() {
@@ -132,93 +144,127 @@ function snake2(){
 
 function gameOver(){
     //document.removeChild('canvas')
-    document.getElementById('splash').innerHTML  = `<div class="cmon"><h1>Game over</h1><p>The winner is: </p><p>Just click the button and play again</p><button>Start Game</button></div>`
-    console.log('gameover')
+    document.getElementById('splash').innerHTML  = `<div class="cmon"><h1>Game over</h1><p>The winner is: </p><p>Just click the button and play again</p><button id="button2">Start Game</button></div>`
+    //console.log('gameover')
 }
 
-// morm nastimat pogoj da ko je player.score = 0, invoke gameover()
 
 function match(){
     player1.innerText--
     create()
-    player1.innerText = player1score
+    //player1.innerText = player1score
+    //console.log(player1score)
+}
+
+function match1(){
+    player1.innerText = player1.innerText - 0.5
+    create()
+    //player1.innerText = player1score
+    //console.log(player1score)
 }
 
 function match2(){
     player2.innerText--
     create()
-    player2.innerText = player2score
+    //player2.innerText = player2score
 }
 
-//prva 2 collisiona sta nastimana
+function match3(){
+    player2.innerText= player2.innerText - 0.5
+    create()
+    //player2.innerText = player2score
+}
 
 function snakeCollision() {
     
     if(snake1x > canvas.width || snake1x < 0 || snake1y > canvas.height || snake1y < 0){
         setTimeout(match, 3000)
-        player1score--
-        player1.innerText = player1score
-        console.log(player1score)
         clearInterval(intervalId)
+        //player1score--
+        //player1.innerText = player1score
+        //console.log(player1score)
+        //clearInterval(intervalId)
     }
     
     if(snake2x > canvas.width || snake2x < 0 || snake2y > canvas.height || snake2y < 0){
         setTimeout(match2, 3000)
-        player2score--
-        player2.innerText = player2score
-        console.log(player2score)
         clearInterval(intervalId)
+        //player2score--
+        //player2.innerText = player2score
+        //console.log(player2score)
+        //clearInterval(intervalId)
     }
-
+    // does not update player1score - but uploads player1.innerText
     pastPos.forEach((item, index) => {
         pastPos.forEach((item2, index2) => {
           if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
+            setTimeout(match1, 3000)
             clearInterval(intervalId)
-            alert('Match over')
-            player1.innerText--
-            create()
+            //alert('Match over')
+            //setTimeout(match, 3000)
+            //player1.innerText--
+            //create()
+            //clearInterval(intervalId)
           }
         })
     })
-
+    //does not update player2score - but uploads player2.innerText
     pastPos2.forEach((item, index) => {
         pastPos2.forEach((item2, index2) => {
           if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
-            setTimeout(match2, 3000)
-            player2score--
-            player2.innerText = player2score
-            console.log(player2score)
+            setTimeout(match3, 3000)
             clearInterval(intervalId)
+            //alert('Match over')
+            //setTimeout(match, 3000)
+            //player2.innerText--
+            //create()
+            //clearInterval(intervalId)
           }
         })
     })
-
+    //does not update player1score or palayer2score - but uploads player1.innerText and player2.innerTaxt
     pastPos.forEach((item, index) => {
         pastPos2.forEach((item2, index2) => {
           if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
             if(parseInt(item[0]) === parseInt(pastPos[pastPos.length - 1][0]) && parseInt(item[1]) === parseInt(pastPos[pastPos.length - 1][1])){
-                player1.innerText--
+                setTimeout(match, 3000)
+                clearInterval(intervalId)
+                //player1.innerText--
               } else {
-                player2.innerText--
+                setTimeout(match2, 3000)
+                clearInterval(intervalId)
+                //player2.innerText--
               }
+              /*
             clearInterval(intervalId)
             alert('Match over')
             create()
+            */
           }
-         /*
-          if(player1Score === 0 ){
-              location.reload(`
-                document.getElementById('someId').innerHTML = `¸
-                <diV>Game Over¸
-                   <h1></h1>
-                </div>`; 
-          }
-          if(player2.innerText === '2'){
-              location.reload()
-          }
-          */
         })
     })
+
+    if(player1.innerText === '2'){
+        gameOver()
+    }
+    if(player2.innerText === '2'){
+        gameOver()
+    }
+
+    /*
+    if(player1score === 2){
+        gameOver()
+        player1.innerText--
+        player1.innerText = player1score
+        console.log(player1score)
+    }
+    if(player2score === 0){
+        gameOver()
+        player2.innerText--
+        player2.innerText = player2score
+        console.log(player2score)
+    }
+    */
 }
 
 function newPos() {
@@ -289,6 +335,8 @@ function startGame() {
 // EVENT LISTENERS
 
 document.getElementById("button").addEventListener("click", create)
+
+//document.getElementById("button2").addEventListener("click", create2)
 
 document.addEventListener('keydown', logKey)
 

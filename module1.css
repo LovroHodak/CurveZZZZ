@@ -62,6 +62,21 @@ h3 {
     background-color: #ff75a8;
 }
 
+#button2{
+    font-size: 80px;
+    font-weight: 500;
+    padding: 20px;
+    border-radius: 7px;
+    background-color: #ff75a8;
+}
+
 p {
     text-align: center;
+}
+
+.cmon{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
