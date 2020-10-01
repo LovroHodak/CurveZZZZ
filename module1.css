@@ -11,6 +11,11 @@ canvas {
 
 .white {
     color: white;
+    font-size: 30px;
+}
+
+.black {
+    font-size: 30px;
 }
 
 #splash{
@@ -68,6 +73,7 @@ h3 {
     padding: 20px;
     border-radius: 7px;
     background-color: #ff75a8;
+    margin-top: 15px;
 }
 
 p {
@@ -79,4 +85,17 @@ p {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+#demo {
+    font-size: 30px;
+}
+
+.winWhite {
+    color: white;
+}
+
+.over {
+    font-size: 50px;
+    color: #c95e3a;
 }
