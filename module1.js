@@ -29,19 +29,19 @@ let pastPos2
 
 let intervalId
 
-//let player1score
-//let player2score
+let player1score
+let player2score
 
 let myMusic
 
-//let gameIsStarting = true
+let gameIsStarting = true
 
 // FUNCTIONS
 
 function create(){
-    document.getElementById('splash').innerHTML = '<canvas id="someId" width="750" height="500"></canvas>'; // replaces the inner HTML of #splash to a canvas
-    canvas = document.querySelector('canvas');
-    ctx = canvas.getContext('2d');
+    document.getElementById('splash').innerHTML = '<canvas id="someId" width="750" height="500"></canvas>'
+    canvas = document.querySelector('canvas')
+    ctx = canvas.getContext('2d')
     initializeVariables()
     intervalId = setInterval(() => {
         requestAnimationFrame(startGame)
@@ -49,19 +49,7 @@ function create(){
     myMusic = new sound("sell_the_can.mp3")
     myMusic.play()
 }
-/*
-function create2(){
-    document.getElementsByClassName('cmon').innerHTML = '<canvas id="someId" width="750" height="500"></canvas>'; // replaces the inner HTML of #splash to a canvas
-    canvas = document.querySelector('canvas');
-    ctx = canvas.getContext('2d');
-    initializeVariables()
-    intervalId = setInterval(() => {
-        requestAnimationFrame(startGame)
-    }, 20)
-    myMusic = new sound("sell_the_can.mp3")
-    myMusic.play()
-}
-*/
+
 function sound(src) {
     this.sound = document.createElement("audio");
     this.sound.src = src;
@@ -69,12 +57,15 @@ function sound(src) {
     this.sound.setAttribute("controls", "none");
     this.sound.style.display = "none";
     document.body.appendChild(this.sound);
+    
     this.play = function(){
         this.sound.play();
     }
+    
     this.stop = function(){
         this.sound.pause();
-    }    
+    } 
+       
 }
 
 function initializeVariables() {
@@ -101,13 +92,13 @@ function initializeVariables() {
     pastPos = []
     pastPos2 = []
     intervalId = 0
-    /*
+    
     if(gameIsStarting){
         player1score = 3
         player2score = 3
         gameIsStarting = false
     }
-    */
+    
 }
 
 function snake1() {
@@ -143,128 +134,94 @@ function snake2(){
 }
 
 function gameOver(){
-    //document.removeChild('canvas')
-    document.getElementById('splash').innerHTML  = `<div class="cmon"><h1>Game over</h1><p>The winner is: </p><p>Just click the button and play again</p><button id="button2">Start Game</button></div>`
-    //console.log('gameover')
+    gameIsStarting = true
+    document.getElementById('splash').innerHTML  = `<div class="cmon"><h1>Game over</h1><p>Just click the button and play again</p><button id="button2">Start Game</button></div>`
+    document.getElementById("button2").addEventListener("click", create)
 }
 
 
 function match(){
-    player1.innerText--
-    create()
-    //player1.innerText = player1score
-    //console.log(player1score)
-}
-
-function match1(){
-    player1.innerText = player1.innerText - 0.5
-    create()
-    //player1.innerText = player1score
-    //console.log(player1score)
+    player1score--
+    player1.innerText = player1score
 }
 
 function match2(){
-    player2.innerText--
-    create()
-    //player2.innerText = player2score
+    player2score--
+    player2.innerText = player2score
 }
 
-function match3(){
-    player2.innerText= player2.innerText - 0.5
-    create()
-    //player2.innerText = player2score
+function gameOverCheck(){
+    if(player1score === 0){
+        gameOver()
+    }
+    if(player2score === 0){
+        gameOver()
+    }
 }
 
 function snakeCollision() {
     
     if(snake1x > canvas.width || snake1x < 0 || snake1y > canvas.height || snake1y < 0){
-        setTimeout(match, 3000)
         clearInterval(intervalId)
-        //player1score--
-        //player1.innerText = player1score
-        //console.log(player1score)
-        //clearInterval(intervalId)
+        match()
+        gameOverCheck()
+        if (!gameIsStarting){
+            setTimeout(create, 3000)
+        }
     }
     
     if(snake2x > canvas.width || snake2x < 0 || snake2y > canvas.height || snake2y < 0){
-        setTimeout(match2, 3000)
         clearInterval(intervalId)
-        //player2score--
-        //player2.innerText = player2score
-        //console.log(player2score)
-        //clearInterval(intervalId)
+        match2()
+        gameOverCheck()
+        if (!gameIsStarting){
+            setTimeout(create, 3000)
+        }
     }
-    // does not update player1score - but uploads player1.innerText
+    
     pastPos.forEach((item, index) => {
-        pastPos.forEach((item2, index2) => {
-          if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
-            setTimeout(match1, 3000)
+        if(index !== (pastPos.length - 1) && parseInt(snake1x) === parseInt(item[0]) && parseInt(snake1y) === parseInt(item[1])){
             clearInterval(intervalId)
-            //alert('Match over')
-            //setTimeout(match, 3000)
-            //player1.innerText--
-            //create()
-            //clearInterval(intervalId)
-          }
-        })
+            match()
+            gameOverCheck()
+            if (!gameIsStarting){
+                setTimeout(create, 3000)
+            }
+        }
     })
-    //does not update player2score - but uploads player2.innerText
+
     pastPos2.forEach((item, index) => {
-        pastPos2.forEach((item2, index2) => {
-          if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
-            setTimeout(match3, 3000)
+        if(index !== (pastPos2.length - 1) && parseInt(snake2x) === parseInt(item[0]) && parseInt(snake2y) === parseInt(item[1])){
             clearInterval(intervalId)
-            //alert('Match over')
-            //setTimeout(match, 3000)
-            //player2.innerText--
-            //create()
-            //clearInterval(intervalId)
-          }
-        })
+            match2()
+            gameOverCheck()
+            if (!gameIsStarting){
+                setTimeout(create, 3000)
+            }
+        }
     })
-    //does not update player1score or palayer2score - but uploads player1.innerText and player2.innerTaxt
+    
     pastPos.forEach((item, index) => {
-        pastPos2.forEach((item2, index2) => {
-          if(index !== index2 && parseInt(item[0]) === parseInt(item2[0]) && parseInt(item[1]) === parseInt(item2[1])){
-            if(parseInt(item[0]) === parseInt(pastPos[pastPos.length - 1][0]) && parseInt(item[1]) === parseInt(pastPos[pastPos.length - 1][1])){
-                setTimeout(match, 3000)
-                clearInterval(intervalId)
-                //player1.innerText--
-              } else {
-                setTimeout(match2, 3000)
-                clearInterval(intervalId)
-                //player2.innerText--
-              }
-              /*
+        if(index !== (pastPos.length - 1) && parseInt(snake2x) === parseInt(item[0]) && parseInt(snake2y) === parseInt(item[1])){
             clearInterval(intervalId)
-            alert('Match over')
-            create()
-            */
-          }
-        })
+            match2()
+            gameOverCheck()
+            if (!gameIsStarting){
+                setTimeout(create, 3000)
+            }
+        }
     })
 
-    if(player1.innerText === '2'){
-        gameOver()
-    }
-    if(player2.innerText === '2'){
-        gameOver()
-    }
-
-    /*
-    if(player1score === 2){
-        gameOver()
-        player1.innerText--
-        player1.innerText = player1score
-        console.log(player1score)
-    }
-    if(player2score === 0){
-        gameOver()
-        player2.innerText--
-        player2.innerText = player2score
-        console.log(player2score)
-    }
-    */
+    pastPos2.forEach((item, index) => {
+        if(index !== (pastPos2.length - 1) && parseInt(snake1x) === parseInt(item[0]) && parseInt(snake1y) === parseInt(item[1])){
+            clearInterval(intervalId)
+            match()
+            gameOverCheck()
+            if (!gameIsStarting){
+                setTimeout(create, 3000)
+            }
+        }
+    })
 }
 
 function newPos() {
@@ -323,8 +280,7 @@ function startGame() {
     if (keysDown && keysDown[83]){
         startGame() 
     }
-
-
+    
     newPos()
     newPos2()
     snake1()
@@ -335,8 +291,6 @@ function startGame() {
 // EVENT LISTENERS
 
 document.getElementById("button").addEventListener("click", create)
-
-//document.getElementById("button2").addEventListener("click", create2)
 
 document.addEventListener('keydown', logKey)
 
