@@ -121,8 +121,13 @@ function gameOver(){
     gameIsStarting = true
     document.getElementById('splash').innerHTML  = `<div class="cmon"><h1>Game over</h1><p>Just click the button and play again</p><button id="button2">Start Game</button></div>`
     document.getElementById("button2").addEventListener("click", create)
+    stopAudio(myMusic)
 }
 
+function stopAudio(myMusic) {
+    myMusic.pause();
+    myMusic.currentTime = 0;
+}
 
 function match(){
     player1score--
@@ -146,6 +151,7 @@ function gameOverCheck(){
 function snakeCollision() {
     
     if(snake1x > canvas.width || snake1x < 0 || snake1y > canvas.height || snake1y < 0){
+        //myMusic.pause()
         clearInterval(intervalId)
         match()
         gameOverCheck()
@@ -155,6 +161,7 @@ function snakeCollision() {
     }
     
     if(snake2x > canvas.width || snake2x < 0 || snake2y > canvas.height || snake2y < 0){
+        //myMusic.pause()
         clearInterval(intervalId)
         match2()
         gameOverCheck()
@@ -165,6 +172,7 @@ function snakeCollision() {
     
     pastPos.forEach((item, index) => {
         if(index !== (pastPos.length - 1) && parseInt(snake1x) === parseInt(item[0]) && parseInt(snake1y) === parseInt(item[1])){
+            //myMusic.pause()
             clearInterval(intervalId)
             match()
             gameOverCheck()
@@ -176,6 +184,7 @@ function snakeCollision() {
 
     pastPos2.forEach((item, index) => {
         if(index !== (pastPos2.length - 1) && parseInt(snake2x) === parseInt(item[0]) && parseInt(snake2y) === parseInt(item[1])){
+            //myMusic.pause()
             clearInterval(intervalId)
             match2()
             gameOverCheck()
@@ -187,6 +196,7 @@ function snakeCollision() {
     
     pastPos.forEach((item, index) => {
         if(index !== (pastPos.length - 1) && parseInt(snake2x) === parseInt(item[0]) && parseInt(snake2y) === parseInt(item[1])){
+            //myMusic.pause()
             clearInterval(intervalId)
             match2()
             gameOverCheck()
@@ -198,6 +208,7 @@ function snakeCollision() {
 
     pastPos2.forEach((item, index) => {
         if(index !== (pastPos2.length - 1) && parseInt(snake1x) === parseInt(item[0]) && parseInt(snake1y) === parseInt(item[1])){
+            //myMusic.pause()
             clearInterval(intervalId)
             match()
             gameOverCheck()
