@@ -33,8 +33,7 @@ let player1score
 let player2score
 
 let myMusic
-myMusic = new Audio("./music/sell.mp3")
-//myMusic.src = "./music/sell.mp3"
+myMusic = new Audio("./music/dandelion.mp3")
 
 let gameIsStarting = true
 
@@ -48,29 +47,9 @@ function create(){
     intervalId = setInterval(() => {
         requestAnimationFrame(startGame)
     }, 20)
-    //myMusic = new Audio()
-    //myMusic.src = "./music/sell.mp3"
     myMusic.play()
 }
-/*
-function sound(src) {
-    this.sound = document.createElement("audio");
-    this.sound.src = src;
-    this.sound.setAttribute("preload", "auto");
-    this.sound.setAttribute("controls", "none");
-    this.sound.style.display = "none";
-    document.body.appendChild(this.sound);
-    
-    this.play = function(){
-        this.sound.play();
-    }
-    
-    this.stop = function(){
-        this.sound.pause();
-    } 
-       
-}
-*/
+
 function initializeVariables() {
     keysDown = {}
 
