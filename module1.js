@@ -35,6 +35,12 @@ let player2score
 let myMusic
 myMusic = new Audio("./music/dandelion.mp3")
 
+let myOtherMusic
+myOtherMusic = new Audio("./music/son.mp3")
+
+let myPauseMusic
+myPauseMusic = new Audio("./music/pausesong.mp3")
+
 let gameIsStarting = true
 
 // FUNCTIONS
@@ -48,6 +54,8 @@ function create(){
         requestAnimationFrame(startGame)
     }, 20)
     myMusic.play()
+    stopOtherAudio(myOtherMusic)
+    stopPauseMusic(myPauseMusic)
 }
 
 function initializeVariables() {
@@ -122,11 +130,23 @@ function gameOver(){
     document.getElementById('splash').innerHTML  = `<div class="cmon"><h1>Game over</h1><p>Just click the button and play again</p><button id="button2">Start Game</button></div>`
     document.getElementById("button2").addEventListener("click", create)
     stopAudio(myMusic)
+    stopPauseMusic(myPauseMusic)
+    myOtherMusic.play()
 }
 
 function stopAudio(myMusic) {
     myMusic.pause();
     myMusic.currentTime = 0;
+}
+
+function stopOtherAudio(myOtherMusic){
+    myOtherMusic.pause()
+    myOtherMusic.currentTime = 0
+}
+
+function stopPauseMusic(myPauseMusic){
+    myPauseMusic.pause()
+    myPauseMusic.currentTime = 0
 }
 
 function match(){
@@ -151,7 +171,8 @@ function gameOverCheck(){
 function snakeCollision() {
     
     if(snake1x > canvas.width || snake1x < 0 || snake1y > canvas.height || snake1y < 0){
-        //myMusic.pause()
+        myMusic.pause()
+        myPauseMusic.play()
         clearInterval(intervalId)
         match()
         gameOverCheck()
@@ -161,7 +182,8 @@ function snakeCollision() {
     }
     
     if(snake2x > canvas.width || snake2x < 0 || snake2y > canvas.height || snake2y < 0){
-        //myMusic.pause()
+        myMusic.pause()
+        myPauseMusic.play()
         clearInterval(intervalId)
         match2()
         gameOverCheck()
@@ -172,7 +194,8 @@ function snakeCollision() {
     
     pastPos.forEach((item, index) => {
         if(index !== (pastPos.length - 1) && parseInt(snake1x) === parseInt(item[0]) && parseInt(snake1y) === parseInt(item[1])){
-            //myMusic.pause()
+            myMusic.pause()
+            myPauseMusic.play()
             clearInterval(intervalId)
             match()
             gameOverCheck()
@@ -184,7 +207,8 @@ function snakeCollision() {
 
     pastPos2.forEach((item, index) => {
         if(index !== (pastPos2.length - 1) && parseInt(snake2x) === parseInt(item[0]) && parseInt(snake2y) === parseInt(item[1])){
-            //myMusic.pause()
+            myMusic.pause()
+            myPauseMusic.play()
             clearInterval(intervalId)
             match2()
             gameOverCheck()
@@ -196,7 +220,8 @@ function snakeCollision() {
     
     pastPos.forEach((item, index) => {
         if(index !== (pastPos.length - 1) && parseInt(snake2x) === parseInt(item[0]) && parseInt(snake2y) === parseInt(item[1])){
-            //myMusic.pause()
+            myMusic.pause()
+            myPauseMusic.play()
             clearInterval(intervalId)
             match2()
             gameOverCheck()
@@ -208,7 +233,8 @@ function snakeCollision() {
 
     pastPos2.forEach((item, index) => {
         if(index !== (pastPos2.length - 1) && parseInt(snake1x) === parseInt(item[0]) && parseInt(snake1y) === parseInt(item[1])){
-            //myMusic.pause()
+            myMusic.pause()
+            myPauseMusic.play()
             clearInterval(intervalId)
             match()
             gameOverCheck()
