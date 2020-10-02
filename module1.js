@@ -38,11 +38,11 @@ myMusic.volume = 0.1
 
 let myOtherMusic
 myOtherMusic = new Audio("./music/son.mp3")
-myOtherMusic.volume = 0.1
+myOtherMusic.volume = 0.2
 
 let myPauseMusic
 myPauseMusic = new Audio("./music/pausesong.mp3")
-myPauseMusic.volume = 0.1
+myPauseMusic.volume = 0.2
 //match test vs game test
 let gameIsStarting = true
 
