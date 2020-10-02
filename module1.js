@@ -34,15 +34,15 @@ let player2score
 //music
 let myMusic
 myMusic = new Audio("./music/dandelion.mp3")
-myMusic.volume = 0.02
+myMusic.volume = 0.04
 
 let myOtherMusic
 myOtherMusic = new Audio("./music/son.mp3")
-myOtherMusic.volume = 0.04
+myOtherMusic.volume = 0.08
 
 let myPauseMusic
 myPauseMusic = new Audio("./music/pausesong.mp3")
-myPauseMusic.volume = 0.04
+myPauseMusic.volume = 0.08
 //match test vs game test
 let gameIsStarting = true
 
